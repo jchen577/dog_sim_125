@@ -10,6 +10,8 @@ public class playerMovement : MonoBehaviour
     public float XRotation;
     public float YRotation;
     public float gravity = -9.81f;
+    public float jumpHeight = 0.35f;
+    public Vector3 jumpVelocity;
 
     private CharacterController character;
     void Start()
@@ -40,14 +42,14 @@ public class playerMovement : MonoBehaviour
             //Player movement/physics
             float moveX = Input.GetAxis("Horizontal");
             float moveZ = Input.GetAxis("Vertical");
-            Vector3 grav;
-            if(character.isGrounded){
-                grav = new Vector3(0,0,0);
+            if (character.isGrounded && jumpVelocity.y < 0) {
+                jumpVelocity.y = 0;
             }
-            else{
-                grav = new Vector3(0,gravity,0)/speed;
+            if (Input.GetKeyDown(KeyCode.C) && character.isGrounded) {
+                jumpVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravity);
             }
-            character.Move((transform.forward*moveZ + grav+transform.right*moveX)*speed*Time.deltaTime);
+            jumpVelocity.y += gravity * Time.deltaTime;
+            character.Move((transform.forward*moveZ + jumpVelocity + transform.right*moveX)*speed*Time.deltaTime);
         }
     }
 }

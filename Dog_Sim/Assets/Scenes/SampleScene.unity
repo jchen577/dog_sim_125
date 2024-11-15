@@ -4265,7 +4265,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 328261351}
+  m_Mesh: {fileID: 421358987}
 --- !u!33 &614009644
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -4914,6 +4914,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2097983863}
     m_Modifications:
+    - target: {fileID: 75672129135717980, guid: 9905b579266779144bcd149a46092c35,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 75672129135717980, guid: 9905b579266779144bcd149a46092c35,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 698835194020227962, guid: 9905b579266779144bcd149a46092c35,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 698835194020227962, guid: 9905b579266779144bcd149a46092c35,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 0.43
+      objectReference: {fileID: 0}
     - target: {fileID: 729833784309983388, guid: 9905b579266779144bcd149a46092c35,
         type: 3}
       propertyPath: m_Name
@@ -5909,7 +5929,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1037094693}
+  m_Mesh: {fileID: 111820236}
 --- !u!33 &817364054
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -9462,7 +9482,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 676317177}
+  m_Mesh: {fileID: 1908997218}
 --- !u!33 &1246525935
 MeshFilter:
   m_ObjectHideFlags: 10

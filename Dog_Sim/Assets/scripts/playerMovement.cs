@@ -9,6 +9,7 @@ public class playerMovement: MonoBehaviour {
     public float XRotation;
     public float YRotation;
     public float gravity = -9.81f;
+    [SerializeField] private float _pushForce = 50f;
 
     private CharacterController character;
     void Start() {
@@ -48,4 +49,10 @@ public class playerMovement: MonoBehaviour {
             character.Move((transform.forward * moveZ + grav + transform.right * moveX) * speed * Time.deltaTime);
         }
     }
+    private void OnControllerColliderHit(ControllerColliderHit hit){
+    Rigidbody rb = hit.collider.attachedRigidbody;
+    if(rb!=null && !rb.isKinematic){
+        rb.AddForce(hit.moveDirection*_pushForce);
+    }
+}
 }

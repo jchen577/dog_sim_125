@@ -17,44 +17,33 @@ public class DangerMeter : MonoBehaviour
     private float currentDanger = 0f;
 
     void Update()
-{
-    // Find nearby AI
-    Collider[] aiInRange = Physics.OverlapSphere(transform.position, dangerZoneRadius, aiLayer);
-
-    if (aiInRange.Length > 0)
     {
-        // Increase meter based on the number of nearby AI
-        currentDanger += fillRate * aiInRange.Length * Time.deltaTime;
-    }
-    else
-    {
-        // Decay the meter if no AI are nearby
-        currentDanger -= decayRate * Time.deltaTime;
-    }
+        // Find nearby AI
+        Collider[] aiInRange = Physics.OverlapSphere(transform.position, dangerZoneRadius, aiLayer);
 
-    // Clamp meter value between 0 and max
-    currentDanger = Mathf.Clamp(currentDanger, 0, maxDanger);
+        if (aiInRange.Length > 0)
+        {
+            // Increase meter based on the number of nearby AI
+            currentDanger += fillRate * aiInRange.Length * Time.deltaTime;
+        }
+        else
+        {
+            // Decay the meter if no AI are nearby
+            currentDanger -= decayRate * Time.deltaTime;
+        }
 
-    // Update UI Slider
-    if (dangerMeter != null)
-    {
-        dangerMeter.value = currentDanger / maxDanger; // Update the slider value
+        // Clamp meter value between 0 and max
+        currentDanger = Mathf.Clamp(currentDanger, 0, maxDanger);
+
+        // Update UI
+        dangerMeter.value = currentDanger / maxDanger;
+
+        // Lose condition
+        if (currentDanger >= maxDanger)
+        {
+            Debug.Log("You Lose! The danger meter is full.");
+        }
     }
-    else
-    {
-        Debug.LogWarning("DangerMeter UI Slider is not assigned in the Inspector.");
-    }
-
-    // Debug the slider's value
-    Debug.Log($"Current Danger: {currentDanger}, Slider Value: {dangerMeter?.value}");
-
-    // Lose condition
-    if (currentDanger >= maxDanger)
-    {
-        Debug.Log("You Lose! The danger meter is full.");
-    }
-}
-
 
     void OnDrawGizmosSelected()
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
-{   
+{
     public float roamingSpeed = 2f;
     public float chasingSpeed = 4f;
     public float detectRange = 10f;
@@ -17,6 +17,7 @@ public class EnemyAI : MonoBehaviour
         Chasing
     }
     private State currentState;
+    private Animator animator;
 
     // Start is called before the first frame update
     private void Start()
@@ -24,6 +25,7 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentState = State.Roaming;
         SetNewRoamingPosition();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,9 +36,13 @@ public class EnemyAI : MonoBehaviour
             case State.Roaming:
                 RoamingBehavior();
                 CheckForPlayer();
+                animator.SetBool("roam", true);
+                animator.SetBool("chase", false);
                 break;
             case State.Chasing:
                 ChasingBehavior();
+                animator.SetBool("roam", false);
+                animator.SetBool("chase", true);
                 break;
         }
     }
@@ -65,10 +71,11 @@ public class EnemyAI : MonoBehaviour
             currentState = State.Chasing;
         }
     }
-    private void ChasingBehavior(){
+    private void ChasingBehavior()
+    {
         transform.position = Vector3.MoveTowards(transform.position, player.position, chasingSpeed * Time.deltaTime);
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if(distanceToPlayer > detectRange)
+        if (distanceToPlayer > detectRange)
         {
             currentState = State.Roaming;
             SetNewRoamingPosition();

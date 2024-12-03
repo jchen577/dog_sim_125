@@ -1,68 +1,54 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class DangerMeter : MonoBehaviour
 {
-    public Slider dangerMeter; // Reference to the UI Slider
-    public float maxDanger = 100f; // Maximum value of the danger meter
-    public float dangerFillRate = 10f; // Base rate at which the meter fills
-    public float dangerDecayRate = 5f; // Rate at which the meter decays
-    public LayerMask aiLayer; // Layer for AI detection
-    public float detectionRadius = 5f; // Radius to detect nearby AIs
+    [Header("Meter Settings")]
+    public Slider dangerMeter;
+    public float fillRate = 1f; // How fast the meter fills per AI
+    public float decayRate = 0.5f; // How fast the meter decays without AI nearby
+    public float maxDanger = 100f;
+
+    [Header("AI Detection")]
+    public float dangerZoneRadius = 5f;
+    public LayerMask aiLayer; // Set this to a layer for AI objects
 
     private float currentDanger = 0f;
-    private bool isGameOver = false;
 
     void Update()
     {
-        if (isGameOver) return; // Stop updating if the game is over
+        // Find nearby AI
+        Collider[] aiInRange = Physics.OverlapSphere(transform.position, dangerZoneRadius, aiLayer);
 
-        // Detect all AIs within the detection radius
-        Collider[] nearbyAIs = Physics.OverlapSphere(transform.position, detectionRadius, aiLayer);
-
-        if (nearbyAIs.Length > 0)
+        if (aiInRange.Length > 0)
         {
-            // Calculate the total danger contribution from all nearby AIs
-            float dangerIncrease = nearbyAIs.Length * dangerFillRate * Time.deltaTime;
-
-            // Increase the danger meter value
-            currentDanger += dangerIncrease;
+            // Increase meter based on the number of nearby AI
+            currentDanger += fillRate * aiInRange.Length * Time.deltaTime;
         }
         else
         {
-            // Decay the danger meter value
-            currentDanger -= dangerDecayRate * Time.deltaTime;
+            // Decay the meter if no AI are nearby
+            currentDanger -= decayRate * Time.deltaTime;
         }
 
-        // Clamp the danger meter value between 0 and maxDanger
+        // Clamp meter value between 0 and max
         currentDanger = Mathf.Clamp(currentDanger, 0, maxDanger);
 
-        // Update the UI Slider
-        if (dangerMeter != null)
-        {
-            dangerMeter.value = currentDanger / maxDanger;
-        }
+        // Update UI
+        dangerMeter.value = currentDanger / maxDanger;
 
-        // Check for game-over condition
+        // Lose condition
         if (currentDanger >= maxDanger)
         {
-            GameOver();
+            Debug.Log("You Lose! The danger meter is full.");
         }
-    }
-
-    void GameOver()
-    {
-        isGameOver = true;
-        SceneManager.LoadScene("GameOverScene");
     }
 
     void OnDrawGizmosSelected()
     {
-        // Visualize the detection radius in the Scene view
+        // Visualize the danger zone radius in the editor
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.DrawWireSphere(transform.position, dangerZoneRadius);
     }
 }

@@ -121,9 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb5c25053a064261a6747db1e313e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamingSpeed: 3
-  chasingSpeed: 6
-  detectRange: 15
+  roamingSpeed: 2
+  chasingSpeed: 4
+  detectRange: 10
 --- !u!54 &849166660162369045
 Rigidbody:
   m_ObjectHideFlags: 0

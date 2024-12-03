@@ -1628,9 +1628,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb5c25053a064261a6747db1e313e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamingSpeed: 2
-  chasingSpeed: 4
-  detectRange: 10
+  roamingSpeed: 3
+  chasingSpeed: 6
+  detectRange: 15
 --- !u!1 &5219746986922920828
 GameObject:
   m_ObjectHideFlags: 0

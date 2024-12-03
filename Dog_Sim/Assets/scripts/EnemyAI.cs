@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
 
     private Transform player;
     private Vector3 roamPosition;
-    private float roamRadius = 5f;
+    private float roamRadius = 15f;
     private enum State
     {
         Roaming,

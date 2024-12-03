@@ -18,24 +18,21 @@ public class ShelfPopulator: MonoBehaviour {
     }
 
     void SpawnItemsInRow(Transform rowPoint) {
-        // Cap the number of items by the user-defined maximum.
-        int itemsToSpawn = Mathf.Min(maxItemsPerRow, itemPrefabs.Length);
+        // Calculate the total width that the items will occupy.
+        float totalWidth = (maxItemsPerRow - 1) * itemSpacing;
 
-        // Randomize item placement by shuffling the prefabs.
-        List<GameObject> randomizedItems = new List<GameObject>(itemPrefabs);
-        ShuffleList(randomizedItems);
-
-        // Calculate the starting offset for the row (centered around the rowPoint).
-        float totalWidth = (itemsToSpawn - 1) * itemSpacing;
+        // Calculate the starting position for the row (centered around the rowPoint).
         Vector3 startPoint = rowPoint.position - rowPoint.right * (totalWidth / 2);
 
-        for (int i = 0; i < itemsToSpawn; i++) {
-            // Calculate spawn position for each item.
-            Vector3 spawnPosition = startPoint + rowPoint.right * (i * itemSpacing); // Spread along local X-axis.
+        for (int i = 0; i < maxItemsPerRow; i++) {
+            // Calculate each item's spawn position along the row.
+            Vector3 spawnPosition = startPoint + rowPoint.right * (i * itemSpacing);
 
-            // Randomly pick an item and spawn it.
-            GameObject itemPrefab = randomizedItems[Random.Range(0, randomizedItems.Count)];
-            Instantiate(itemPrefab, spawnPosition, Quaternion.identity, rowPoint);
+            // Randomly select an item prefab (allowing repeats).
+            GameObject randomPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+
+            // Instantiate the item at the calculated position, parented to the rowPoint.
+            Instantiate(randomPrefab, spawnPosition, Quaternion.identity, rowPoint);
         }
     }
 

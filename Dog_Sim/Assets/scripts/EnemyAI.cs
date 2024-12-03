@@ -57,6 +57,7 @@ public class EnemyAI : MonoBehaviour
     private void RoamingBehavior()
     {
         transform.position = Vector3.MoveTowards(transform.position, roamPosition, roamingSpeed * Time.deltaTime);
+        transform.LookAt(roamPosition);
         if (Vector3.Distance(transform.position, roamPosition) < 0.5f)
         {
             SetNewRoamingPosition();
@@ -74,6 +75,7 @@ public class EnemyAI : MonoBehaviour
     private void ChasingBehavior()
     {
         transform.position = Vector3.MoveTowards(transform.position, player.position, chasingSpeed * Time.deltaTime);
+        transform.LookAt(player.position);
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer > detectRange)
         {

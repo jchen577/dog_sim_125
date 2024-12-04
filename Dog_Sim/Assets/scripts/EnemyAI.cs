@@ -9,55 +9,79 @@ public class EnemyAI : MonoBehaviour
     public float chasingSpeed = 4f;
     public float detectRange = 10f;
     public float alertTime = 1.5f; // Time spent in Alerting state
+    public float stunDuration = 2f; // Duration of the stun
+
     public GameObject visualIndicator; // Assign a child object for visual indicator
 
     private Transform player;
     private Vector3 roamPosition;
     private float roamRadius = 15f;
     private float alertTimer;
+
+    private float stunTimer;
     private enum State
     {
         Roaming,
         Alerting,
-        Chasing
+        Chasing,
+        Stunned
     }
     private State currentState;
     private Animator animator;
 
     private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        currentState = State.Roaming;
-        SetNewRoamingPosition();
-        animator = GetComponent<Animator>();
+{
+    player = GameObject.FindGameObjectWithTag("Player").transform;
+    currentState = State.Roaming;
+    SetNewRoamingPosition();
+    animator = GetComponent<Animator>();
 
-        // Initialize visual indicator
-        UpdateVisualIndicator("?");
-    }
+    // Initialize visual indicator
+    UpdateVisualIndicator("?");
+}
 
-    private void Update()
+private void Update()
+{
+    switch (currentState)
     {
-        switch (currentState)
-        {
-            case State.Roaming:
-                RoamingBehavior();
-                CheckForPlayer();
+        case State.Roaming:
+            RoamingBehavior();
+            CheckForPlayer();
+            if (animator) // Check if the animator exists
+            {
                 animator.SetBool("roam", true);
                 animator.SetBool("chase", false);
-                UpdateVisualIndicator("?");
-                break;
-            case State.Alerting:
-                AlertingBehavior();
-                UpdateVisualIndicator("!");
-                break;
-            case State.Chasing:
-                ChasingBehavior();
+                animator.SetBool("stun", false);
+            }
+            UpdateVisualIndicator("?");
+            break;
+        case State.Alerting:
+            AlertingBehavior();
+            UpdateVisualIndicator("!");
+            break;
+        case State.Chasing:
+            ChasingBehavior();
+            if (animator) // Check if the animator exists
+            {
                 animator.SetBool("roam", false);
                 animator.SetBool("chase", true);
-                UpdateVisualIndicator("!");
-                break;
-        }
+                animator.SetBool("stun", false);
+            }
+            UpdateVisualIndicator("!");
+            break;
+        case State.Stunned:
+            StunBehavior();
+            if (animator) // Check if the animator exists
+            {
+                animator.SetBool("roam", false);
+                animator.SetBool("chase", false);
+                animator.SetBool("stun", true);
+            }
+            UpdateVisualIndicator("X");
+            break;
     }
+}
+
 
     private void SetNewRoamingPosition()
     {
@@ -112,6 +136,35 @@ public class EnemyAI : MonoBehaviour
             currentState = State.Roaming;
             SetNewRoamingPosition();
             UpdateVisualIndicator("?"); // Update visual indicator back to "?" when AI starts roaming
+        }
+    }
+    private void StunBehavior()
+    {
+        stunTimer -= Time.deltaTime;
+
+        if (stunTimer <= 0)
+        {
+            // Return to either roaming or chasing based on the player's range
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer <= detectRange)
+            {
+                currentState = State.Chasing;
+                UpdateVisualIndicator("!");
+            }
+            else
+            {
+                currentState = State.Roaming;
+                UpdateVisualIndicator("?");
+            }
+        }
+    }
+
+    public void Stun()
+    {
+        if (currentState != State.Stunned) // Prevent re-stunning
+        {
+            currentState = State.Stunned;
+            stunTimer = stunDuration;
         }
     }
 

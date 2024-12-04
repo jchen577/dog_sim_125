@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// code modified from https://youtu.be/rJqP5EesxLk?feature=shared
-
-public class PlayerMovement: MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     private CharacterController controller;
     private Vector3 playerVelocity;
     private Vector3 jumpForward;
@@ -15,23 +14,33 @@ public class PlayerMovement: MonoBehaviour {
     public float jumpForwardBoost = 2f;
     public float pushForce = 50f;
 
-    // Start is called before the first frame update
-    void Start() {
+    public float biteForce = 5f; // Strength of the bite push
+    public float biteRange = 2f; // Range of the bite attack
+
+    void Start()
+    {
         controller = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         bool wasGrounded = isGrounded;
         isGrounded = controller.isGrounded;
 
-        if (isGrounded && !wasGrounded) {
+        if (isGrounded && !wasGrounded)
+        {
             jumpForward = Vector3.zero;
+        }
+
+        // Check for bite input (using space as an example)
+        if (Input.GetMouseButtonDown(0)) // Replace with your preferred input
+        {
+            Bite();
         }
     }
 
-    // Receive the inputs for our InputManager.cs and apply them to our character controller
-    public void ProcessMove(Vector2 input) {
+    public void ProcessMove(Vector2 input)
+    {
         Vector3 moveDirection = Vector3.zero;
         moveDirection.x = input.x;
         moveDirection.z = input.y;
@@ -41,7 +50,8 @@ public class PlayerMovement: MonoBehaviour {
         // apply gravity
         playerVelocity.y += gravity * Time.deltaTime;
 
-        if (isGrounded && playerVelocity.y < 0) {
+        if (isGrounded && playerVelocity.y < 0)
+        {
             playerVelocity.y = -2f;
         }
 
@@ -50,8 +60,10 @@ public class PlayerMovement: MonoBehaviour {
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
-    public void Jump() {
-        if (isGrounded) {
+    public void Jump()
+    {
+        if (isGrounded)
+        {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
 
             // Apply a forward leap boost
@@ -59,12 +71,46 @@ public class PlayerMovement: MonoBehaviour {
         }
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit) {
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
         Rigidbody rb = hit.collider.attachedRigidbody;
 
-        // Apply a force if the collided object has a Rigidbody and it’s not kinematic
-        if (rb != null && !rb.isKinematic) {
+        // Apply a force if the collided object has a Rigidbody and itâ€™s not kinematic
+        if (rb != null && !rb.isKinematic)
+        {
             rb.AddForce(hit.moveDirection * pushForce);
         }
     }
+
+    // Implement the bite mechanic
+    private void Bite()
+    {
+        // Find nearby objects within the bite range
+        Collider[] colliders = Physics.OverlapSphere(transform.position, biteRange);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Enemy")) // Check if the collider belongs to an AI enemy
+            {
+                EnemyAI enemyAI = collider.GetComponent<EnemyAI>();
+
+                if (enemyAI != null)
+                {
+                    enemyAI.Stun(); // Trigger the stun state
+                }
+
+                Rigidbody enemyRb = collider.GetComponent<Rigidbody>();
+
+                if (enemyRb != null)
+                {
+                    // Calculate pushback direction (away from the player)
+                    Vector3 pushDirection = (collider.transform.position - transform.position).normalized;
+
+                    // Apply force to push the enemy away
+                    enemyRb.AddForce(pushDirection * biteForce, ForceMode.Impulse);
+                }
+            }
+        }
+    }
+
 }

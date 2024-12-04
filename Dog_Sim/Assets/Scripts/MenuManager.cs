@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager: MonoBehaviour {
+    public void Start() {
+        ShowCursor();
+    }
     public void StartGame() {
         SceneManager.LoadScene("PlayScene");
     }
 
-    public void SelectOptiions() {
+    public void SelectOptions() {
         SceneManager.LoadScene("OptionScene");
     }
 
@@ -18,5 +21,15 @@ public class MenuManager: MonoBehaviour {
 
     public void ReturnToMenu() {
         SceneManager.LoadScene("MenuScene");
+    }
+
+    public void Restart() {
+        StartGame();
+    }
+
+    // Helpers
+    private void ShowCursor() {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

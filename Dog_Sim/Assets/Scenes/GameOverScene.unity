@@ -410,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 680803668}
   - component: {fileID: 680803667}
+  - component: {fileID: 680803669}
   m_Layer: 0
   m_Name: GameOverManager
   m_TagString: Untagged
@@ -444,6 +445,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &680803669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680803666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cf95fe345a51145ad1df6198750667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &943508178
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,7 +708,7 @@ GameObject:
   - component: {fileID: 1247886855}
   - component: {fileID: 1247886854}
   m_Layer: 5
-  m_Name: Button
+  m_Name: RestartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -765,9 +778,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 680803667}
-        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: RestartGame
+      - m_Target: {fileID: 680803669}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

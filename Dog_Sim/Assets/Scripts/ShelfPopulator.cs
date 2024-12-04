@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Code modified from ChatGPT
-
 public class ShelfPopulator: MonoBehaviour {
     public Transform[] spawnPoints;
     public GameObject[] itemPrefabs;

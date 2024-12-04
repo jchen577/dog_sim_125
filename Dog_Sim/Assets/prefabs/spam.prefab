@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4781094451531890, guid: 60025edaacaa67e4998ae209e76b18e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2795508
+      value: 22.113447
       objectReference: {fileID: 0}
     - target: {fileID: 4781094451531890, guid: 60025edaacaa67e4998ae209e76b18e3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3616224
+      value: 0.36162215
       objectReference: {fileID: 0}
     - target: {fileID: 4781094451531890, guid: 60025edaacaa67e4998ae209e76b18e3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.532177
+      value: 39.29455
       objectReference: {fileID: 0}
     - target: {fileID: 4781094451531890, guid: 60025edaacaa67e4998ae209e76b18e3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -64,6 +64,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 54656673100886462, guid: 60025edaacaa67e4998ae209e76b18e3,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -72,6 +77,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2556628172660437672}
+    - targetCorrespondingSourceObject: {fileID: 1397231096607580, guid: 60025edaacaa67e4998ae209e76b18e3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3017475753857808176}
   m_SourcePrefab: {fileID: 100100000, guid: 60025edaacaa67e4998ae209e76b18e3, type: 3}
 --- !u!1 &6883301890584819754 stripped
 GameObject:
@@ -100,3 +109,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.15170598, y: 0.24445972, z: 0.3034119}
   m_Center: {x: 0, y: -0.0000000037252903, z: 0.000000022351742}
+--- !u!114 &3017475753857808176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883301890584819754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6843df14a997b964db17452b369793df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreManager: {fileID: 0}

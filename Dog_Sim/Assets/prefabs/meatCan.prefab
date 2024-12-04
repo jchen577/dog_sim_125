@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4111578457656714, guid: 91cff6a981ef349468da6eadb3d0afe1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.08985689
+      value: 10.387395
       objectReference: {fileID: 0}
     - target: {fileID: 4111578457656714, guid: 91cff6a981ef349468da6eadb3d0afe1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.48
+      value: 0.3738665
       objectReference: {fileID: 0}
     - target: {fileID: 4111578457656714, guid: 91cff6a981ef349468da6eadb3d0afe1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2522832
+      value: 46.434395
       objectReference: {fileID: 0}
     - target: {fileID: 4111578457656714, guid: 91cff6a981ef349468da6eadb3d0afe1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -68,8 +68,36 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 54366247331523066, guid: 91cff6a981ef349468da6eadb3d0afe1,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1479670337981826, guid: 91cff6a981ef349468da6eadb3d0afe1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8278090022220745739}
   m_SourcePrefab: {fileID: 100100000, guid: 91cff6a981ef349468da6eadb3d0afe1, type: 3}
+--- !u!1 &7341146337130845602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1479670337981826, guid: 91cff6a981ef349468da6eadb3d0afe1,
+    type: 3}
+  m_PrefabInstance: {fileID: 7342481966588581920}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8278090022220745739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7341146337130845602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6843df14a997b964db17452b369793df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreManager: {fileID: 0}

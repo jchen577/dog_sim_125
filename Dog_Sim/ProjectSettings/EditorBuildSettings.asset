@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: 02da83c22c4774f33ae3e0b99f504d7e
+  - enabled: 1
+    path: Assets/Scenes/LockerScene.unity
+    guid: 98ae80e370336da428948f9cb249cb6c
   m_configObjects: {}

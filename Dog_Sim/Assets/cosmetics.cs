@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class cosmetics : MonoBehaviour
 {
-    public static bool yellow, orange, green, toggleHat;
-    public GameObject hat, dog;
+    public static bool yellow, orange, green, toggleHat, toggleCap;
+    public GameObject hat, dog, cap;
     public Renderer meshRenderer;
     public Material material;
     // Start is called before the first frame update
@@ -20,6 +20,7 @@ public class cosmetics : MonoBehaviour
     void Update()
     {
         hat.SetActive(toggleHat);
+        cap.SetActive(toggleCap);
 
     }
 
@@ -50,9 +51,16 @@ public class cosmetics : MonoBehaviour
     public void hatEnabled()
     {
         toggleHat = true;
+        toggleCap = false;
     }
-    public void hetDisabled()
+    public void capEnabled()
     {
+        toggleCap = true;
+        toggleHat = false;
+    }
+    public void noHat()
+    {
+        toggleCap = false;
         toggleHat = false;
     }
 }

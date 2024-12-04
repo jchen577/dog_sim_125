@@ -33,4 +33,8 @@ public class SwitchScene : MonoBehaviour
     {
         SceneManager.LoadScene("MenuScene");
     }
+    public void SwitchToLockerScene()
+    {
+        SceneManager.LoadScene("LockerScene");
+    }
 }

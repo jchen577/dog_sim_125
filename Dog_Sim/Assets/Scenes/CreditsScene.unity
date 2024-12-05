@@ -181,20 +181,22 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Character Movement: Nick Corfmat / Jay Kumar
 
-    Objects and Object
-    Physics: Jacky Chen
+    Objects and Object Physics:
+    Jacky Chen
 
     Chasers: Jayden Chung
 
-    Stage: Kenny Li
+    Dynamic Spawning: Jayden Chung
 
-    Timer
-    and Points: Jacky Chen / Nick Corfmat / Jay Kumar
+    Stage:
+    Kenny Li
 
-    Models: Kenny Li
+    Timer and Points: Jacky Chen / Nick Corfmat / Jay Kumar
 
-    VFX:
-    Nick Corfmat
+    Models:
+    Kenny Li
+
+    VFX: Nick Corfmat
 
     Code: All team members'
   m_isRightToLeft: 0

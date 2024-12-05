@@ -191,10 +191,12 @@ MonoBehaviour:
     Stage:
     Kenny Li
 
-    Timer and Points: Jacky Chen / Nick Corfmat / Jay Kumar
+    Timer: Jacky Chen / Jay Kumar
 
-    Models:
-    Kenny Li
+    Map design:  Nick Corfmat
+
+    Models
+    (from sketchfab): Kenny Li
 
     VFX: Nick Corfmat
 
@@ -226,8 +228,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20.22
+  m_fontSizeBase: 20.22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1007,8 +1009,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280492911
-  m_fontColor: {r: 0.4339623, g: 0.13714845, b: 0.13714845, a: 1}
+    rgba: 4291414527
+  m_fontColor: {r: 1, g: 0.7877358, b: 0.7877358, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

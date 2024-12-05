@@ -1567,6 +1567,7 @@ GameObject:
   - component: {fileID: 4359398042572772303}
   - component: {fileID: 7266349173247533835}
   - component: {fileID: 1328687634563604160}
+  - component: {fileID: 7138318061304344262}
   m_Layer: 6
   m_Name: Female 1
   m_TagString: Enemy
@@ -1635,7 +1636,7 @@ MonoBehaviour:
   roamingSpeed: 3
   chasingSpeed: 6
   detectRange: 15
-  alertTime: 1.5
+  alertTime: 1
   stunDuration: 2
   visualIndicator: {fileID: 8356255558466755416}
   storeCenter: {x: 0, y: 0, z: 0}
@@ -1690,6 +1691,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!195 &7138318061304344262
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5119188950957760453}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &5219746986922920828
 GameObject:
   m_ObjectHideFlags: 0

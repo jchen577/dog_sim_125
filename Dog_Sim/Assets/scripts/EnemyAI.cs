@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.AI; // Import for NavMeshAgent
 public class EnemyAI : MonoBehaviour
 {
-    public Transform initialTarget; // Store waypoint assigned by the spawner
+    public Transform initialTarget;
     private bool reachedInitialTarget = false;
     public float roamingSpeed = 2f;
     public float chasingSpeed = 4f;
     public float detectRange = 10f;
-    public float alertTime = 1.5f; // Time spent in Alerting state
-    public float stunDuration = 2f; // Duration of the stun
+    public float alertTime = 1.5f; 
+    public float stunDuration = 2f;
 
-    public GameObject visualIndicator; // Assign a child object for visual indicator
+    public GameObject visualIndicator;
 
-    public Vector3 storeCenter; // Center of the store area
-    public Vector3 storeSize;   // Size of the store area (width, depth)
+    public Vector3 storeCenter;
+    public Vector3 storeSize;
 
     private Transform player;
     private Vector3 roamPosition;
     private float alertTimer;
     private float stunTimer;
+
+    private NavMeshAgent navMeshAgent; // NavMeshAgent reference
 
     private enum State
     {
@@ -35,12 +37,20 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        navMeshAgent = GetComponent<NavMeshAgent>(); // Initialize NavMeshAgent
+        if (navMeshAgent == null)
+        {
+            Debug.LogError("NavMeshAgent not found on " + gameObject.name);
+        }
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentState = State.Roaming;
         SetNewRoamingPosition();
         animator = GetComponent<Animator>();
 
-        // Initialize visual indicator
+        // Set roaming speed in NavMeshAgent
+        navMeshAgent.speed = roamingSpeed;
+
         UpdateVisualIndicator("?");
     }
 
@@ -99,14 +109,14 @@ public class EnemyAI : MonoBehaviour
         float randomX = Random.Range(storeCenter.x - storeSize.x / 2, storeCenter.x + storeSize.x / 2);
         float randomZ = Random.Range(storeCenter.z - storeSize.z / 2, storeCenter.z + storeSize.z / 2);
         roamPosition = new Vector3(randomX, transform.position.y, randomZ);
+
+        // Set destination for NavMeshAgent
+        navMeshAgent.SetDestination(roamPosition);
     }
 
     private void RoamingBehavior()
     {
-        transform.position = Vector3.MoveTowards(transform.position, roamPosition, roamingSpeed * Time.deltaTime);
-        transform.LookAt(roamPosition);
-
-        if (Vector3.Distance(transform.position, roamPosition) < 0.5f)
+        if (navMeshAgent.remainingDistance < 0.5f) // Check if agent has reached roam position
         {
             SetNewRoamingPosition();
         }
@@ -120,29 +130,34 @@ public class EnemyAI : MonoBehaviour
         {
             currentState = State.Alerting;
             alertTimer = alertTime;
+
+            // Stop the NavMeshAgent temporarily during alert
+            navMeshAgent.isStopped = true;
         }
     }
 
     private void AlertingBehavior()
     {
-        transform.LookAt(player.position);
+        transform.LookAt(player.position); // Look at player for visual effect
         alertTimer -= Time.deltaTime;
 
         if (alertTimer <= 0)
         {
             currentState = State.Chasing;
+            navMeshAgent.isStopped = false; // Resume movement
+            navMeshAgent.speed = chasingSpeed; // Update speed for chasing
         }
     }
 
     private void ChasingBehavior()
     {
-        transform.position = Vector3.MoveTowards(transform.position, player.position, chasingSpeed * Time.deltaTime);
-        transform.LookAt(player.position);
+        navMeshAgent.SetDestination(player.position); // Follow player
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        if (distanceToPlayer > detectRange)
+        if (distanceToPlayer > detectRange) // Lost player
         {
             currentState = State.Roaming;
+            navMeshAgent.speed = roamingSpeed; // Reset speed for roaming
             SetNewRoamingPosition();
             UpdateVisualIndicator("?");
         }
@@ -158,11 +173,16 @@ public class EnemyAI : MonoBehaviour
             if (distanceToPlayer <= detectRange)
             {
                 currentState = State.Chasing;
+                navMeshAgent.isStopped = false;
+                navMeshAgent.speed = chasingSpeed;
                 UpdateVisualIndicator("!");
             }
             else
             {
                 currentState = State.Roaming;
+                navMeshAgent.isStopped = false;
+                navMeshAgent.speed = roamingSpeed;
+                SetNewRoamingPosition();
                 UpdateVisualIndicator("?");
             }
         }
@@ -174,6 +194,26 @@ public class EnemyAI : MonoBehaviour
         {
             currentState = State.Stunned;
             stunTimer = stunDuration;
+
+            navMeshAgent.isStopped = true; // Stop all movement
+        }
+    }
+
+    public void SetInitialTarget(Transform target)
+    {
+        initialTarget = target;
+    }
+
+    private void MoveToInitialTarget()
+    {
+        navMeshAgent.SetDestination(initialTarget.position);
+
+        if (Vector3.Distance(transform.position, initialTarget.position) < 0.5f)
+        {
+            reachedInitialTarget = true;
+            currentState = State.Roaming;
+            navMeshAgent.speed = roamingSpeed;
+            SetNewRoamingPosition();
         }
     }
 
@@ -186,24 +226,6 @@ public class EnemyAI : MonoBehaviour
             {
                 textMeshPro.text = symbol;
             }
-        }
-    }
-
-    public void SetInitialTarget(Transform target)
-    {
-        initialTarget = target;
-    }
-
-    private void MoveToInitialTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, initialTarget.position, roamingSpeed * Time.deltaTime);
-        transform.LookAt(initialTarget.position);
-
-        if (Vector3.Distance(transform.position, initialTarget.position) < 0.5f)
-        {
-            reachedInitialTarget = true;
-            currentState = State.Roaming;
-            SetNewRoamingPosition();
         }
     }
 }

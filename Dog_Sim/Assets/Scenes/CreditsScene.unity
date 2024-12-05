@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000026703, y: -19.8}
+  m_AnchoredPosition: {x: 0.000026703, y: 78.1}
   m_SizeDelta: {x: 300.015, y: 64.4021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &25193483
@@ -179,7 +179,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: placeholder
+  m_text: 'Character Movement: Nick Corfmat / Jay Kumar
+
+    Objects and Object
+    Physics: Jacky Chen
+
+    Chasers: Jayden Chung
+
+    Stage: Kenny Li
+
+    Timer
+    and Points: Jacky Chen / Nick Corfmat / Jay Kumar
+
+    Models: Kenny Li
+
+    VFX:
+    Nick Corfmat
+
+    Code: All team members'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf26876b2f02a154a8865b4a800a9647, type: 2}
   m_sharedMaterial: {fileID: 8634422306871587596, guid: bf26876b2f02a154a8865b4a800a9647,
@@ -207,8 +224,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -243,7 +260,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -220.88855, y: 0, z: -249.94116, w: -236.4855}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -732,7 +749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -60.4}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1425891688
@@ -955,7 +972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000026703, y: 52.8}
+  m_AnchoredPosition: {x: 0.000026703, y: 143}
   m_SizeDelta: {x: 300.015, y: 64.4021}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658434810
@@ -1090,8 +1107,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015259, y: 0.0010033}
-  m_SizeDelta: {x: 800, y: 450}
+  m_AnchoredPosition: {x: -55.4461, y: 5.9496}
+  m_SizeDelta: {x: 1707.886, y: 1216.4932}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2026052451
 MonoBehaviour:

@@ -1639,8 +1639,8 @@ MonoBehaviour:
   alertTime: 1
   stunDuration: 3
   visualIndicator: {fileID: 8356255558466755416}
-  storeCenter: {x: 0, y: 0, z: 0}
-  storeSize: {x: 0, y: 0, z: 0}
+  storeCenter: {x: 30.71974, y: -0.1214438, z: 3.427803}
+  storeSize: {x: 61.43947, y: 0.05767271, z: 99.9379}
 --- !u!136 &7266349173247533835
 CapsuleCollider:
   m_ObjectHideFlags: 0

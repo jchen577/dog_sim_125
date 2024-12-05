@@ -127,7 +127,7 @@ MonoBehaviour:
   roamingSpeed: 3
   chasingSpeed: 6
   detectRange: 15
-  alertTime: 1.5
+  alertTime: 1
   stunDuration: 2
   visualIndicator: {fileID: 3639079131208429763}
   storeCenter: {x: 30.71974, y: -0.1214438, z: 3.427803}

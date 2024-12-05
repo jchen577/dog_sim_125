@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Ensure this is included at the top
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
+    public Transform initialTarget; // Store waypoint assigned by the spawner
+    private bool reachedInitialTarget = false;
     public float roamingSpeed = 2f;
     public float chasingSpeed = 4f;
     public float detectRange = 10f;
@@ -13,12 +15,14 @@ public class EnemyAI : MonoBehaviour
 
     public GameObject visualIndicator; // Assign a child object for visual indicator
 
+    public Vector3 storeCenter; // Center of the store area
+    public Vector3 storeSize;   // Size of the store area (width, depth)
+
     private Transform player;
     private Vector3 roamPosition;
-    private float roamRadius = 15f;
     private float alertTimer;
-
     private float stunTimer;
+
     private enum State
     {
         Roaming,
@@ -30,72 +34,78 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
 
     private void Start()
-{
-    player = GameObject.FindGameObjectWithTag("Player").transform;
-    currentState = State.Roaming;
-    SetNewRoamingPosition();
-    animator = GetComponent<Animator>();
-
-    // Initialize visual indicator
-    UpdateVisualIndicator("?");
-}
-
-private void Update()
-{
-    switch (currentState)
     {
-        case State.Roaming:
-            RoamingBehavior();
-            CheckForPlayer();
-            if (animator) // Check if the animator exists
-            {
-                animator.SetBool("roam", true);
-                animator.SetBool("chase", false);
-                animator.SetBool("stun", false);
-            }
-            UpdateVisualIndicator("?");
-            break;
-        case State.Alerting:
-            AlertingBehavior();
-            UpdateVisualIndicator("!");
-            break;
-        case State.Chasing:
-            ChasingBehavior();
-            if (animator) // Check if the animator exists
-            {
-                animator.SetBool("roam", false);
-                animator.SetBool("chase", true);
-                animator.SetBool("stun", false);
-            }
-            UpdateVisualIndicator("!");
-            break;
-        case State.Stunned:
-            StunBehavior();
-            if (animator) // Check if the animator exists
-            {
-                animator.SetBool("roam", false);
-                animator.SetBool("chase", false);
-                animator.SetBool("stun", true);
-            }
-            UpdateVisualIndicator("X");
-            break;
-    }
-}
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        currentState = State.Roaming;
+        SetNewRoamingPosition();
+        animator = GetComponent<Animator>();
 
+        // Initialize visual indicator
+        UpdateVisualIndicator("?");
+    }
+
+    private void Update()
+    {
+        if (!reachedInitialTarget && initialTarget != null)
+        {
+            MoveToInitialTarget();
+        }
+        else
+        {
+            switch (currentState)
+            {
+                case State.Roaming:
+                    RoamingBehavior();
+                    CheckForPlayer();
+                    if (animator)
+                    {
+                        animator.SetBool("roam", true);
+                        animator.SetBool("chase", false);
+                        animator.SetBool("stun", false);
+                    }
+                    UpdateVisualIndicator("?");
+                    break;
+                case State.Alerting:
+                    AlertingBehavior();
+                    UpdateVisualIndicator("!");
+                    break;
+                case State.Chasing:
+                    ChasingBehavior();
+                    if (animator)
+                    {
+                        animator.SetBool("roam", false);
+                        animator.SetBool("chase", true);
+                        animator.SetBool("stun", false);
+                    }
+                    UpdateVisualIndicator("!");
+                    break;
+                case State.Stunned:
+                    StunBehavior();
+                    if (animator)
+                    {
+                        animator.SetBool("roam", false);
+                        animator.SetBool("chase", false);
+                        animator.SetBool("stun", true);
+                    }
+                    UpdateVisualIndicator("X");
+                    break;
+            }
+        }
+    }
 
     private void SetNewRoamingPosition()
     {
-        roamPosition = transform.position + new Vector3(
-            Random.Range(-roamRadius, roamRadius),
-            0,
-            Random.Range(-roamRadius, roamRadius)
-        );
+        // Generate a random position within the store boundaries
+        float randomX = Random.Range(storeCenter.x - storeSize.x / 2, storeCenter.x + storeSize.x / 2);
+        float randomZ = Random.Range(storeCenter.z - storeSize.z / 2, storeCenter.z + storeSize.z / 2);
+        roamPosition = new Vector3(randomX, transform.position.y, randomZ);
     }
 
     private void RoamingBehavior()
     {
         transform.position = Vector3.MoveTowards(transform.position, roamPosition, roamingSpeed * Time.deltaTime);
         transform.LookAt(roamPosition);
+
         if (Vector3.Distance(transform.position, roamPosition) < 0.5f)
         {
             SetNewRoamingPosition();
@@ -115,7 +125,6 @@ private void Update()
 
     private void AlertingBehavior()
     {
-        // Stop moving and face the player
         transform.LookAt(player.position);
         alertTimer -= Time.deltaTime;
 
@@ -135,16 +144,16 @@ private void Update()
         {
             currentState = State.Roaming;
             SetNewRoamingPosition();
-            UpdateVisualIndicator("?"); // Update visual indicator back to "?" when AI starts roaming
+            UpdateVisualIndicator("?");
         }
     }
+
     private void StunBehavior()
     {
         stunTimer -= Time.deltaTime;
 
         if (stunTimer <= 0)
         {
-            // Return to either roaming or chasing based on the player's range
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer <= detectRange)
             {
@@ -161,7 +170,7 @@ private void Update()
 
     public void Stun()
     {
-        if (currentState != State.Stunned) // Prevent re-stunning
+        if (currentState != State.Stunned)
         {
             currentState = State.Stunned;
             stunTimer = stunDuration;
@@ -170,7 +179,6 @@ private void Update()
 
     private void UpdateVisualIndicator(string symbol)
     {
-        // Update the visual indicator's text
         if (visualIndicator != null)
         {
             TextMeshPro textMeshPro = visualIndicator.GetComponent<TextMeshPro>();
@@ -178,6 +186,24 @@ private void Update()
             {
                 textMeshPro.text = symbol;
             }
+        }
+    }
+
+    public void SetInitialTarget(Transform target)
+    {
+        initialTarget = target;
+    }
+
+    private void MoveToInitialTarget()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, initialTarget.position, roamingSpeed * Time.deltaTime);
+        transform.LookAt(initialTarget.position);
+
+        if (Vector3.Distance(transform.position, initialTarget.position) < 0.5f)
+        {
+            reachedInitialTarget = true;
+            currentState = State.Roaming;
+            SetNewRoamingPosition();
         }
     }
 }

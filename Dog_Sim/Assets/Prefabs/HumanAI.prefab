@@ -122,11 +122,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb5c25053a064261a6747db1e313e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialTarget: {fileID: 0}
   roamingSpeed: 3
   chasingSpeed: 6
   detectRange: 15
   alertTime: 1.5
+  stunDuration: 2
   visualIndicator: {fileID: 3639079131208429763}
+  storeCenter: {x: 30.71974, y: -0.1214438, z: 3.427803}
+  storeSize: {x: 61.43947, y: 0.05767271, z: 99.9379}
 --- !u!54 &849166660162369045
 Rigidbody:
   m_ObjectHideFlags: 0

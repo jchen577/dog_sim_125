@@ -9,14 +9,14 @@ public class TriggerDoor: MonoBehaviour {
     private bool doorOpen;
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Player")) {
+        if (other.CompareTag("Player") || other.CompareTag("Enemy")) {
             OpenDoor();
             Debug.Log("Entered");
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.CompareTag("Player")) {
+        if (other.CompareTag("Player") || other.CompareTag("Enemy")) {
             CloseDoor();
             Debug.Log("Exited");
         }
